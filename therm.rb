@@ -1,4 +1,5 @@
 require 'rubygems'
+require 'active_support/all'
 require 'mechanize'
 require 'json'
 
@@ -7,6 +8,8 @@ class TempSensor
     @user = user
     @pass = pass
     @device_id = device_id
+
+    @last_response = Time.now - 60.seconds
 
     @agent = Mechanize.new
     @agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -23,13 +26,6 @@ class TempSensor
   end
 
   def query
-    response = @agent.get(
-      "https://mytotalconnectcomfort.com/portal/Device/CheckDataSession/#{@device_id}?_=#{Time.now.to_i * 1000}",
-      [],
-      "https://mytotalconnectcomfort.com/portal/Device/Control/#{@device_id}",
-      'X-Requested-With' => 'XMLHttpRequest'
-    )
-
     data = JSON.parse(response.body)
 
     retval = {}
@@ -43,5 +39,20 @@ class TempSensor
     retval['fan_status'] = data['latestData']['fanData']['fanIsRunning']
 
     retval
+  end
+
+  private
+
+  def response
+    if @last_response < 60.seconds.ago
+      @val
+    end
+
+    @val = @agent.get(
+      "https://mytotalconnectcomfort.com/portal/Device/CheckDataSession/#{@device_id}?_=#{Time.now.to_i * 1000}",
+      [],
+      "https://mytotalconnectcomfort.com/portal/Device/Control/#{@device_id}",
+      'X-Requested-With' => 'XMLHttpRequest'
+    )
   end
 end
