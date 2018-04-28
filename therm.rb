@@ -9,7 +9,7 @@ class TempSensor
     @pass = pass
     @device_id = device_id
 
-    @last_response = Time.now - 60.seconds
+    @last_response = Time.now
 
     @agent = Mechanize.new
     @agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
@@ -45,6 +45,8 @@ class TempSensor
 
   def response
     return @val if @last_response > 5.minutes.ago && @val
+
+    puts 'Refreshing data'
 
     @last_response = Time.now
 

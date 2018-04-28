@@ -1,5 +1,5 @@
 require './therm'
-require 'sinatra'
+require 'sinatra/base'
 require 'prometheus/client'
 require 'prometheus/client/formats/text'
 
