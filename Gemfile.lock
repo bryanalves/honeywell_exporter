@@ -35,7 +35,7 @@ GEM
     ntlm-http (0.1.1)
     prometheus-client (0.7.1)
       quantile (~> 0.2.0)
-    puma (3.10.0)
+    puma (3.11.4)
     quantile (0.2.0)
     rack (2.0.4)
     rack-protection (2.0.1)
