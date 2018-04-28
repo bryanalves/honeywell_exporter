@@ -44,7 +44,7 @@ class TempSensor
   private
 
   def response
-    return @val if @last_response > 120.seconds.ago && @val
+    return @val if @last_response > 5.minutes.ago && @val
 
     @last_response = Time.now
 
