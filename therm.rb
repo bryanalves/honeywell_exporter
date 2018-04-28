@@ -45,8 +45,10 @@ class TempSensor
 
   def response
     if @last_response < 60.seconds.ago
-      @val
+      return @val
     end
+
+    @last_resposne = Time.now
 
     @val = @agent.get(
       "https://mytotalconnectcomfort.com/portal/Device/CheckDataSession/#{@device_id}?_=#{Time.now.to_i * 1000}",
