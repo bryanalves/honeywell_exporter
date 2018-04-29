@@ -1,4 +1,4 @@
-FROM ruby:2.3.3
+FROM ruby:2.5.1
 MAINTAINER Bryan Alves <bryanalves@gmail.com>
 
 RUN mkdir /app
