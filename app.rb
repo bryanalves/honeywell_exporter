@@ -33,12 +33,10 @@ class App < Sinatra::Base
   get '/' do
     content_type :json
 
-    @sensor.setup
     @sensor.query.to_json
   end
 
   get '/metrics' do
-    @sensor.setup
     data = @sensor.query
 
     @up.set({ device_id: @device_id }, data['success'] ? 1 : 0)

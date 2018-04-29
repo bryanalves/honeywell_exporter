@@ -15,16 +15,6 @@ class TempSensor
     @agent.agent.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
   end
 
-  def setup
-    @agent.get('https://mytotalconnectcomfort.com/portal')
-
-    @agent.post('https://mytotalconnectcomfort.com/portal',
-              'timeOffset' => '240',
-              'UserName' => @user,
-              'Password' => @pass,
-              'RememberMe' => 'false')
-  end
-
   def query
     data = JSON.parse(response.body)
 
@@ -43,12 +33,24 @@ class TempSensor
 
   private
 
+  def setup
+    @agent.get('https://mytotalconnectcomfort.com/portal')
+
+    @agent.post('https://mytotalconnectcomfort.com/portal',
+              'timeOffset' => '240',
+              'UserName' => @user,
+              'Password' => @pass,
+              'RememberMe' => 'false')
+  end
+
   def response
     return @val if @last_response > 5.minutes.ago && @val
 
     puts 'Refreshing data'
 
     @last_response = Time.now
+
+    setup
 
     @val = @agent.get(
       "https://mytotalconnectcomfort.com/portal/Device/CheckDataSession/#{@device_id}?_=#{Time.now.to_i * 1000}",
