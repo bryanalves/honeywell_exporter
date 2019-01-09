@@ -27,6 +27,8 @@ class TempSensor
     retval['device_id'] = data['latestData']['uiData']['DeviceID']
     retval['status'] = data['latestData']['uiData']['EquipmentOutputStatus']
     retval['fan_status'] = data['latestData']['fanData']['fanIsRunning']
+    retval['heating'] = (data['latestData']['uiData']['EquipmentOutputStatus'] == 1) ? 1 : 0
+    retval['cooling'] = (data['latestData']['uiData']['EquipmentOutputStatus'] == 2) ? 1 : 0
 
     retval
   end

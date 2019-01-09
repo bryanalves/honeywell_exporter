@@ -27,6 +27,8 @@ class App < Sinatra::Base
     @cool_point = @registry.gauge(:therm_cool_point, 'Current cool trigger point')
 
     @status = @registry.gauge(:therm_status, 'Current system status')
+    @heating = @registry.gauge(:heating, 'System heating')
+    @cooling = @registry.gauge(:cooling, 'System cooling')
     @fan_status = @registry.gauge(:therm_fan_status, 'Current fan status')
   end
 
@@ -45,6 +47,8 @@ class App < Sinatra::Base
     @heat_point.set({ device_id: @device_id}, data['heat_point'])
     @cool_point.set({ device_id: @device_id}, data['cool_point'])
     @status.set({ device_id: @device_id }, data['status'])
+    @heating.set({ device_id: @device_id }, data['heating'])
+    @cooling.set({ device_id: @device_id }, data['cooling'])
     @fan_status.set({ device_id: @device_id }, data['fan_status'] ? 1 : 0)
 
     Prometheus::Client::Formats::Text.marshal(@registry)
