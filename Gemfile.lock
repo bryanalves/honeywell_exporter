@@ -37,7 +37,7 @@ GEM
       quantile (~> 0.2.0)
     puma (3.12.6)
     quantile (0.2.0)
-    rack (2.0.8)
+    rack (2.2.3)
     rack-protection (2.0.2)
       rack
     sinatra (2.0.2)
